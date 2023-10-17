@@ -1,90 +1,54 @@
-import React, { useRef } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import logo from './../assets/ask.svg';
-import Button from './Button';
+import { NavHashLink } from 'react-router-hash-link';
+// import rideOnLogo from './../../assets/images/rideon247-logo.png';
+import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 
 const Navbar = () => {
-  const navRef = useRef()
-  const showMenu = () => {
-    navRef.current.classList.toggle('translate-x-[100%]');
-  }
-  // const pathname = window.location.pathname;
-  // console.log(pathname);
-  return (
-    <nav className={`fixed w-full mx-auto lg:px-auto sm:px-20 transition duration-500 flex justify-center h-fit`}>
-      <div className={`flex w-full fixed md:static max-w-[1200px] mx-auto justify-between transition duration-500 backdrop-blur h-16 px-4 md:px-0 z-20`}>
+  const navRef = useRef();
+  const togglerRef = useRef();
 
-        {/* Brand Logo */}
-        <div className='flex my-auto'>
-          <Link to='/' className={``}>
-            <img src={logo} alt='ask the chip' />
+  const handleOpenNav = () => {
+    const navClassList = navRef.current.classList;
+    const togglerClassList = togglerRef.current.classList;
+
+    if(navClassList.contains("translate-x-full")){
+      navClassList.remove("translate-x-full")
+      togglerClassList.add("rotate-90")
+    } else {
+      navClassList.add("translate-x-full")
+      togglerClassList.remove("rotate-90")
+    }
+    console.log(togglerRef)
+  }
+
+  return (
+    <nav className='bg-white shadow h-20 flex justify-center fixed w-full z-50'>
+      <div className='flex justify-between items-center w-[90%] max-w-[1200px] mx-auto'>
+        <div>
+          <Link to="/">
+{/*             <img src={rideOnLogo} alt="RideOn247" /> */}
           </Link>
         </div>
-
-        {/* Desktop Nav */}
-        <div className='hidden md:flex font-body my-auto items-center justify-between w-full max-w-[500px]'>
-          <HashLink to="#home" smooth className={({ isActive }) => (isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Home</HashLink>
-          <HashLink to='#about' smooth className={({ isActive }) => (isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>About us</HashLink>
-          <HashLink to='#discover' smooth className={({ isActive }) => (isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Discover</HashLink>
-          <Button path='register' title='Register' />
-        </div>
-        {/* <div className='hidden md:flex font-body my-auto items-center justify-between w-full max-w-[500px]'>
-            <NavLink to="/" end className={({isActive}) =>(isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Home</NavLink>
-            <NavLink to='/about' className={({isActive}) =>(isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>About us</NavLink>
-            <NavLink to='/discover' className={({isActive}) =>(isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Discover</NavLink>
-            <Button path='register' title='Register' />
-        </div> */}
-
-        {/* Mobile nav & toggler */}
-        <div className='flex md:hidden z-20'>
-          <button onClick={showMenu} className="flex pt-[1rem] text-secondary absolute right-2 md:hidden p-3 transition active:scale-90">
-            <FaBars size={30} />
-          </button>
-          <div ref={navRef} className={`flex translate-x-[100%]  bg-white z-[2] md:hidden transition flex-col w-[70%] items-center font-body uppercase my-auto h-screen fixed top-0 right-0`}>
-            <div className='flex justify-center mb-4 mt-[50%]' onClick={showMenu}>
-              <HashLink to="#home" smooth className={({ isActive }) => (isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')} end>Home</HashLink>
-            </div>
-            <div className='flex justify-center my-4' onClick={showMenu}>
-              <HashLink to='#about' smooth className={({ isActive }) => (isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>About</HashLink>
-            </div>
-            <div className='flex justify-center my-4' onClick={showMenu}>
-              <HashLink to='#discover' smooth className={({ isActive }) => (isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Discover</HashLink>
-            </div>
-            <div className='flex justify-center my-4' onClick={showMenu}>
-              <NavLink to='/register' className={({ isActive }) => (isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Register</NavLink>
-            </div>
-            <button onClick={showMenu} className="flex absolute right-2 md:hidden p-3 ease-in transition duration-500 active:scale-90">
-              <FaTimes size={40} />
-            </button>
+        <button ref={togglerRef} onClick={handleOpenNav} className='fixed md:hidden top-8 right-8 z-50 transition duration-200 hover:scale-125 active:scale-100'>
+          <div className=''>
+            <div className='flex w-8 h-1 mb-1.5 bg-black'></div>
+            <div className='flex w-8 h-1 mb-1.5 bg-black'></div>
+            <div className='flex w-8 h-1 bg-black'></div>
           </div>
+        </button>
+        <div ref={navRef} className="flex fixed md:relative bg-white md:bg-transparent top-0 right-0 h-screen md:h-fit w-4/5 translate-x-full md:translate-x-0 transition duration-200">
+          <ul className='flex items-center md:justify-end flex-col md:flex-row mt-20 md:mt-0 w-full'>
+            <li className='mr-0 md:mr-6 lg:mr-11 mb-5 md:mb-0 hover:underline decoration-primary underline-offset-2 decoration-2'><NavHashLink to="#home" smooth>Home</NavHashLink></li>
+            <li className='mr-0 md:mr-6 lg:mr-11 mb-5 md:mb-0 hover:underline decoration-primary underline-offset-2 decoration-2'><NavHashLink to="#about" smooth>About</NavHashLink></li>
+            <li className='mr-0 md:mr-6 lg:mr-11 mb-5 md:mb-0 hover:underline decoration-primary underline-offset-2 decoration-2'><NavHashLink to="#features" smooth>Features</NavHashLink></li>
+            <li className='mr-0 md:mr-6 lg:mr-11 mb-5 md:mb-0 hover:underline decoration-primary underline-offset-2 decoration-2'><NavHashLink to="#contact" smooth>Contact</NavHashLink></li>
+            <li className=''><button className='bg-primary rounded px-3 py-2 text-sm font-semibold'>Download Now</button></li>
+          </ul>
         </div>
-        {/* <div className='flex md:hidden'>
-          <button onClick={showMenu} className="flex pt-[1rem] absolute right-2 md:hidden p-3 transition active:scale-90">
-              <FaBars size={30} />
-          </button>
-          <div ref={navRef} className={`flex translate-x-[100%] z-10 md:hidden transition flex-col w-[70%] items-center font-body uppercase my-auto h-screen fixed top-0 right-0 backdrop-blur`}>
-              <div className='flex justify-center mb-4 mt-[50%]' onClick={showMenu}>
-                <NavLink to="/" className={({isActive}) =>(isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')} end>Home</NavLink>
-              </div>
-              <div className='flex justify-center my-4' onClick={showMenu}>
-                <NavLink to='/about' className={({isActive}) =>(isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>About</NavLink>
-              </div>
-              <div className='flex justify-center my-4' onClick={showMenu}>
-                <NavLink to='/discover' className={({isActive}) =>(isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Discover</NavLink>
-              </div>
-              <div className='flex justify-center my-4' onClick={showMenu}>
-                <NavLink to='/register' className={({isActive}) =>(isActive ? 'px-4 underline decoration-2 underline-offset-4' : 'px-4 hover:underline decoration-2 underline-offset-4')}>Register</NavLink>
-              </div>
-              <button onClick={showMenu} className="flex absolute right-2 md:hidden p-3 ease-in transition duration-500 active:scale-90">
-                <FaTimes size={40}/>
-              </button>
-          </div>
-        </div> */}
+
       </div>
     </nav>
   )
 }
 
-export default Navbar;
+export default Navbar
